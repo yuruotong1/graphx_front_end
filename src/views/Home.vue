@@ -5,41 +5,41 @@
       <v-col cols="3">
         <v-list> 
           <v-list-item
-            v-for="nodeItem in items"
-            :key="nodeItem.title"
+            v-for="node in graphData.nodeList"
+            :key="node.text"
           >
             <v-list-item-content>
-              <v-list-item-title v-text="nodeItem.title"></v-list-item-title>
+              <v-list-item-title v-text="node.text"></v-list-item-title>
             </v-list-item-content>
             <v-list-item-avatar>
-              <v-menu offset-y :close-on-content-click=false :close-on-click=false v-model="menuInfo[nodeItem.id]">
+              <v-menu offset-y :close-on-content-click=false :close-on-click=false v-model="menuInfo[node.id]">
                 <template v-slot:activator="{ on, attrs }">
                    <v-img  
-                      :src="nodeItem.avatar" 
+                      :src="node.avatar" 
                       v-bind="attrs"
                       v-on="on"
-                      @click="imgClick(nodeItem)"
+                      @click="imgClick(node)"
                     />
                 </template>
                 <v-card>
                   <v-card-title>选择图标</v-card-title>
                   <v-divider></v-divider>
                   <v-card-text style="height: 300px;">
-                    <e-icon-picker ref="iconPicker"  v-model="pickeredIconInfo[nodeItem.id]" :options="options"/>
+                    <e-icon-picker ref="iconPicker"  v-model="pickeredIconInfo[node.id]" :options="options"/>
                   </v-card-text>
                    <v-divider></v-divider>
                     <v-card-actions>
                       <v-btn
                         color="blue darken-1"
                         text
-                        @click="menuInfo[nodeItem.id]=false"
+                        @click="menuInfo[node.id]=false"
                       >
                         Close
                       </v-btn>
                       <v-btn
                         color="blue darken-1"
                         text
-                        @click="saveButton"
+                        @click="saveButton(node)"
                       >
                         Save
                       </v-btn>
@@ -82,53 +82,58 @@
           nodeList: [],
           edgeList: []},
         graphUrl: "",
-        items: [],
         menuInfo: {},
         options: {FontAwesome: false, ElementUI: false, addIconList: [], removeIconList: []},
         pickeredIconInfo: {},
-        curLeftListItem: null,
     }
     }, 
     mounted() {
 
     },
     watch: {
+
       textareaValue: function(val) {
-        console.log(this.graphData)
-        this.axios({url:"/graph/parse", method: "POST", data: {rawData: val, graphData: this.graphData}}).then((res) => {
-        this.graphData=res.data;
-        if(res.status != 200) {
-          return;
-        }
-        this.axios({url:"/graph/getPng", method: "POST", data: this.graphData,  responseType: 'blob'}).then((res) => {
-                const blob = new Blob([res.data], {type: 'img/png'});
-                const url = window.URL.createObjectURL(blob);
-                this.graphUrl = url;
-                this.items=this.graphData.nodeList.map(function(x){return {id: x.id, title: x.text, avatar: x.avatar}});
-                this.items.forEach(item=>{
-                  this.$set(this.menuInfo, item.id, false);
-                })   
-                this.items.forEach(item=>{
-                  this.$set(this.pickeredIconInfo, item.id, "");
-                })
-                });
-       
-  })}
+        this.refreshData();
+       }
     },
     methods: {
-      saveButton() {
-        this.curLeftListItem.avatar=this.pickeredIconInfo[this.curLeftListItem.id];
-        this.menuInfo[this.curLeftListItem.id]=false;
+      saveButton(node) {
+        node.avatar=this.pickeredIconInfo[node.id];
+        console.log("cur", node)
+        this.menuInfo[node.id]=false;
         this.options.addIconList=[];
+        
+        this.refreshData();
+
       },
-      imgClick(item) {
-        this.curLeftListItem=item;
-        this.axios({url:"https://iconsapi.com/api/search?appkey=620271bee4b06f79691875ea&query="+item.id, method: "GET"}).then((res) => {
+      imgClick(node) {
+        this.axios({url:"https://iconsapi.com/api/search?appkey=620271bee4b06f79691875ea&query="+node.text, method: "GET"}).then((res) => {
             res.data.pages.elements.forEach(element=>{
               this.options.addIconList.push(element.url);
             });
         });
 
+      },
+      refreshData() {
+        console.log(this.graphData)
+        this.axios({url:"/graph/parse", method: "POST", data: {"rawData": this.textareaValue, "jsonData": this.graphData}}).then((res) => {
+        if(res.status != 200 || res.data.success == false) {
+          return;
+        }
+        this.graphData=res.data.graphData;
+        this.graphData.nodeList.forEach(node=>{
+          this.$set(this.menuInfo, node.id, false);
+        })   
+        this.graphData.nodeList.forEach(node=>{
+          this.$set(this.pickeredIconInfo, node.id, "");
+        })
+        this.axios({url:"/graph/getPng", method: "POST", data: this.graphData,  responseType: 'blob'}).then((res) => {
+                const blob = new Blob([res.data], {type: 'img/png'});
+                const url = window.URL.createObjectURL(blob);
+                this.graphUrl = url;
+                });
+       
+  })
       }
     },
     components: {},
