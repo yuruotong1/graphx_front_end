@@ -8,7 +8,7 @@
               <v-list-item-title v-text="node.text"></v-list-item-title>
             </v-list-item-content>
             <v-list-item-avatar>
-              <IconPicker :ref="'e-icon-picker-' + node.id" :node="node">
+              <IconPicker :ref="'e-icon-picker-' + node.id" :node="node" @saveButton="refreshData">
                 <template v-slot:menuActivator="{ on, attrs }">
                   <v-img
                     v-bind="attrs"

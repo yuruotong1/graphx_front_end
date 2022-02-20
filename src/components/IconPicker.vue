@@ -74,7 +74,7 @@ export default {
     },
     saveButton() {
         this.node.avatar=this.pickedPicture.avatar;
-
+        this.$emit("saveButton");
         console.log(this.node);
         this.menuVisible=false;
     }
