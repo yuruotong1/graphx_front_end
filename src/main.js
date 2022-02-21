@@ -12,6 +12,7 @@ import 'font-awesome/css/font-awesome.min.css'; //font-awesome 图标库
 import 'element-ui/lib/theme-chalk/icon.css'; //element-ui 图标库
 
 Vue.config.productionTip = false
+// axios.defaults.baseURL="http://47.104.28.107:8888"
 axios.defaults.baseURL="http://localhost:8888"
 Vue.use(VueAxios,axios);
 Vue.use(eIconPicker, {
