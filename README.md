@@ -7,14 +7,8 @@
 ![](document/picture/show.gif)
 
 总之有以下特色：
-
-- 智能自动化
-  - 智能选图
-  - 智能布局
-
-- 便捷操作
-  - 简单语法
-  - 人工选图
+    
+![](document/picture/feature.png)
 
 # 语法是什么？
 
