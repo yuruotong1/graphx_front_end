@@ -5,11 +5,17 @@
     max-width="230px"
     max-height="200px"
     offset-x
-  >
+  >  
     <template v-slot:activator="{ on, attrs,}">
         <slot name="menuActivator" :on="on" :attrs="attrs"> </slot>
     </template>
     <v-card>
+
+        <v-text-field
+            v-model="searchPictureName"
+            label="Search"
+            clearable
+        ></v-text-field>
         <v-list>
             <v-row dense class="flex">
             <v-col
@@ -48,16 +54,21 @@ export default {
       // 清除 icon
       menuVisible: function(x) {
           if (!x) {
-              this.pictures=[];
+              this.destoryIcon();
           }
+      },
+      searchPictureName: function(x) {
+          this.node.searchPictureName=this.searchPictureName;
+          this.destoryIcon();
+          this.$emit("search");
       }
-
   },
   data() {
     return {
       pictures: [],
       menuVisible: false,
       pickedPicture: null,
+      searchPictureName: null
     };
   },
   methods: {
@@ -74,9 +85,11 @@ export default {
     },
     saveButton() {
         this.node.avatar=this.pickedPicture.avatar;
-        this.$emit("saveButton");
-        console.log(this.node);
+        this.$emit("refrech");
         this.menuVisible=false;
+    },
+    setPickedPicture(url, pictureName) {
+        this.pickedPicture={avatar: url, pictureName: pictureName};
     }
   },
 };

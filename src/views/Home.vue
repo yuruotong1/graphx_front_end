@@ -8,7 +8,7 @@
               <v-list-item-title v-text="node.text"></v-list-item-title>
             </v-list-item-content>
             <v-list-item-avatar>
-              <IconPicker :ref="'e-icon-picker-' + node.id" :node="node" @saveButton="refreshData">
+              <IconPicker :ref="'icon-picker-' + node.id" :node="node" @refrech="refreshData" @search="searchPicture(node)">
                 <template v-slot:menuActivator="{ on, attrs }">
                   <v-img
                     v-bind="attrs"
@@ -67,14 +67,6 @@ export default {
   mounted() {},
   watch: {
     textareaValue: async function (val) {
-      var delay = 2000; //延迟2000 毫秒执行
-      this.captchaInputLastTime = new Date().valueOf();
-      await this.sleep(delay);
-      var nowTime = new Date().valueOf();
-      var gap = nowTime - this.captchaInputLastTime;
-      if (gap < delay) {
-        return;
-      }
       this.refreshData();
     },
   },
@@ -84,27 +76,47 @@ export default {
     },
     imgClick(node) {
       this.curNode = node;
+      let refPicker = this.$refs["icon-picker-" + node.id][0];
+      refPicker.searchPictureName = node.searchPictureName;
+      this.searchPicture(node); 
+      //使用服务器传回的图片
+      refPicker.setPickedPicture(node.avatar, node.text);
+    },
+    async searchPicture(node) {
+      var delay = 500;
+      this.captchaInputLastTime = new Date().valueOf();
+      await this.sleep(delay);
+      var nowTime = new Date().valueOf();
+      var gap = nowTime - this.captchaInputLastTime;
+      if (gap < delay) {
+        return;
+      }
+      let refPicker = this.$refs["icon-picker-" + node.id][0];
       this.axios({
         url:
           "https://iconsapi.com/api/search?appkey=620271bee4b06f79691875ea&query=" +
-          node.text,
+          refPicker.searchPictureName,
         method: "GET",
       }).then((res) => {
         res.data.pages.elements.forEach((element) => {
-          this.$refs["e-icon-picker-" + node.id][0].addIcon(
+          refPicker.addIcon(
             element.url,
             element.iconName
           );
         });
-        if (this.$refs["e-icon-picker-" + node.id][0].pictures.length > 0) {
-          if (this.$refs["e-icon-picker-" + node.id][0].pickedPicture == null) {
-          this.$refs["e-icon-picker-" + node.id][0].pickedPicture =
-            this.$refs["e-icon-picker-" + node.id][0].pictures[0];
-          }
-        }
-      });
+        
+        });
+
     },
-    refreshData() {
+    async refreshData() {
+      var delay = 2000; //延迟2000 毫秒执行
+      this.captchaInputLastTime = new Date().valueOf();
+      await this.sleep(delay);
+      var nowTime = new Date().valueOf();
+      var gap = nowTime - this.captchaInputLastTime;
+      if (gap < delay) {
+        return;
+      }
       this.axios({
         url: "/graph/parse",
         method: "POST",
