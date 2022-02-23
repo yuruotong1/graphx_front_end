@@ -2,6 +2,7 @@
   "name": "graphx",
   "version": "0.1.0",
   "private": true,
+  "homepage":"https://yuruotong1.github.io/graphx_front_end",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
