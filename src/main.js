@@ -9,7 +9,7 @@ import VueAxios from 'vue-axios'
 Vue.config.productionTip = false
 // axios.defaults.baseURL="http://47.104.28.107:8888"
 // axios.defaults.baseURL="http://localhost:8888"
-axios.defaults.baseURL="graph:8888"
+axios.defaults.baseURL="http://graph:8888"
 Vue.use(VueAxios,axios);
 new Vue({
   router,
