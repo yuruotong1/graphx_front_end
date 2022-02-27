@@ -3,20 +3,19 @@
     v-model="menuVisible"
     :close-on-content-click="false"
     max-width="230px"
-    max-height="200px"
+    max-height="300px"
     offset-x
   >  
     <template v-slot:activator="{ on, attrs,}">
         <slot name="menuActivator" :on="on" :attrs="attrs"> </slot>
     </template>
     <v-card>
-
         <v-text-field
             v-model="searchPictureName"
             label="Search"
             clearable
         ></v-text-field>
-        <v-list>
+        <v-list class="overflow-y-auto" height="180px">
             <v-row dense class="flex">
             <v-col
                 v-for="picture in this.pictures"
@@ -52,11 +51,11 @@ export default {
   },
   watch: {
       // 清除 icon
-      menuVisible: function(x) {
-          if (!x) {
-              this.destoryIcon();
-          }
-      },
+      // menuVisible: function(x) {
+      //     if (!x) {
+      //         this.destoryIcon();
+      //     }
+      // },
       searchPictureName: function(x) {
           this.node.searchPictureName=this.searchPictureName;
           this.destoryIcon();
