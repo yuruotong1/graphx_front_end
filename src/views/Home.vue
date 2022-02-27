@@ -78,7 +78,7 @@ export default {
       this.curNode = node;
       let refPicker = this.$refs["icon-picker-" + node.id][0];
       refPicker.searchPictureName = node.searchPictureName;
-      this.searchPicture(node); 
+      // this.searchPicture(node); 
       //使用服务器传回的图片
       refPicker.setPickedPicture(node.avatar, node.text);
     },
