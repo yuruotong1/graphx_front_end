@@ -32,6 +32,13 @@
               
                 </v-img>
             </v-col>
+            <v-col
+                cols="3"
+            >
+              <v-button>
+                aaaa
+              </v-button>   
+            </v-col>
             </v-row>
         </v-list>
         <v-card-actions>

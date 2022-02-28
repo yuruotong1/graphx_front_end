@@ -5,7 +5,8 @@
   "homepage":"https://yuruotong1.github.io/graphx_front_end",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "local": "vue-cli-service serve --mode local"
   },
   "dependencies": {
     "@logicflow/core": "^1.0.7",
