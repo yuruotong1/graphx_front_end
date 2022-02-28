@@ -25,7 +25,7 @@
                 <v-menu
                   open-on-hover
                   absolute
-                  :position-x="330"
+                  :position-x="590"
                   :position-y="mouseenterPositionY"
          
                 >
