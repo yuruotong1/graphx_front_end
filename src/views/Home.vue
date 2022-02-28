@@ -83,30 +83,8 @@ export default {
       refPicker.setPickedPicture(node.avatar, node.text);
     },
     async searchPicture(node) {
-      var delay = 500;
-      this.captchaInputLastTime = new Date().valueOf();
-      await this.sleep(delay);
-      var nowTime = new Date().valueOf();
-      var gap = nowTime - this.captchaInputLastTime;
-      if (gap < delay) {
-        return;
-      }
       let refPicker = this.$refs["icon-picker-" + node.id][0];
-      this.axios({
-        url:
-          "https://iconsapi.com/api/search?appkey=620271bee4b06f79691875ea&query=" +
-          refPicker.searchPictureName,
-        method: "GET",
-      }).then((res) => {
-        res.data.pages.elements.forEach((element) => {
-          refPicker.addIcon(
-            element.url,
-            element.iconName
-          );
-        });
-        
-        });
-
+      refPicker.addIcon();
     },
     async refreshData() {
       var delay = 2000; //延迟2000 毫秒执行

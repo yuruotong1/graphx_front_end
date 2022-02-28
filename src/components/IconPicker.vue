@@ -32,14 +32,11 @@
               
                 </v-img>
             </v-col>
-    
-
             <v-col 
               class="d-flex justify-center mb-10"
-              
             >
-              <v-btn height="28px" >
-                加载更多
+              <v-btn height="28px" @click="loadMore" :disabled="loadMoreBtnDisabled">
+                {{loadMoreBtnText}}
               </v-btn>   
             </v-col>
             </v-row>
@@ -60,29 +57,49 @@ export default {
       node: Object,
   },
   watch: {
-      // 清除 icon
-      // menuVisible: function(x) {
-      //     if (!x) {
-      //         this.destoryIcon();
-      //     }
-      // },
       searchPictureName: function(x) {
           this.node.searchPictureName=this.searchPictureName;
           this.destoryIcon();
           this.$emit("search");
-      }
+          this.loadMoreBtnDisabled=false;
+      },
   },
   data() {
     return {
       pictures: [],
       menuVisible: false,
       pickedPicture: null,
-      searchPictureName: null
+      searchPictureName: null,
+      curPage:1,
+      totalPage:1,
+      loadMoreBtnText: "再来点"
     };
   },
   methods: {
-    addIcon(url, pictureName) {
-      this.pictures.push({avatar: url, pictureName: pictureName});
+    async addIcon() {
+      var delay = 500;
+      this.captchaInputLastTime = new Date().valueOf();
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      var nowTime = new Date().valueOf();
+      var gap = nowTime - this.captchaInputLastTime;
+      if (gap < delay || this.curPage > this.totalPage) {
+        return;
+      }
+      this.axios({
+        url:
+          "https://iconsapi.com/api/search?appkey=620271bee4b06f79691875ea&page="+ this.curPage +"&query=" +
+          this.searchPictureName,
+        method: "GET",
+      }).then((res) => {
+        this.totalPage=res.data.pages.pageCount;
+        res.data.pages.elements.forEach((element) => {
+          this.pictures.push({avatar: element.url, pictureName: element.iconName});
+        });
+        this.curPage += 1;
+        
+        });
+      
+      
     },
 
     destoryIcon() {
@@ -93,12 +110,15 @@ export default {
         this.pickedPicture=picture;
     },
     saveButton() {
-        this.node.avatar=this.pickedPicture.avatar;
-        this.$emit("refrech");
-        this.menuVisible=false;
+      this.node.avatar=this.pickedPicture.avatar;
+      this.$emit("refrech");
+      this.menuVisible=false;
     },
     setPickedPicture(url, pictureName) {
-        this.pickedPicture={avatar: url, pictureName: pictureName};
+      this.pickedPicture={avatar: url, pictureName: pictureName};
+    },
+    loadMore() {
+      this.addIcon();
     }
   },
 };
