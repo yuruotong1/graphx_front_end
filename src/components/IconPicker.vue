@@ -22,20 +22,41 @@
                 :key="picture.name"
                 cols="3"
             >
-                <v-img 
-                  height="25px"
-                  contain
-                  :src="picture.avatar"
-                  class="img-padding" 
-                  :class="{'img-border': pickedPicture.avatar == picture.avatar}"
-                  @click=iconClick(picture)>
-              
-                </v-img>
+                <v-menu
+                  open-on-hover
+                  absolute
+                  :position-x="330"
+                  :position-y="mouseenterPositionY"
+         
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-img 
+                      height="25px"
+                      contain
+                      v-on="on"
+                      v-bind="attrs"
+                      :src="picture.avatar"
+                      class="img-padding"
+                      @mouseenter="mouseenterMethod"
+                      :class="{'img-border': pickedPicture.avatar == picture.avatar}"
+                      @click=iconClick(picture)>
+                  
+                    </v-img>
+                  </template>
+                  <v-card>
+                    <v-img
+                    height="100px"
+                    contain
+                    :src="picture.avatar"
+                  >
+                  </v-img>
+                  </v-card>                 
+                </v-menu>
             </v-col>
             <v-col 
               class="d-flex justify-center mb-10"
             >
-              <v-btn height="28px" @click="loadMore" :disabled="loadMoreBtnDisabled">
+              <v-btn height="28px" @click="loadMore">
                 {{loadMoreBtnText}}
               </v-btn>   
             </v-col>
@@ -61,7 +82,6 @@ export default {
           this.node.searchPictureName=this.searchPictureName;
           this.destoryIcon();
           this.$emit("search");
-          this.loadMoreBtnDisabled=false;
       },
   },
   data() {
@@ -72,10 +92,16 @@ export default {
       searchPictureName: null,
       curPage:1,
       totalPage:1,
-      loadMoreBtnText: "再来点"
+      loadMoreBtnText: "再来点",
+      mouseenterPositionY:0,
     };
   },
   methods: {
+    mouseenterMethod(event) {
+      this.mouseenterPositionY=event.clientY-30;
+
+
+    },
     async addIcon() {
       var delay = 500;
       this.captchaInputLastTime = new Date().valueOf();
