@@ -16,7 +16,7 @@
             clearable
         ></v-text-field>
         <v-list class="overflow-y-auto" height="180px">
-            <v-row dense class="flex">
+            <v-row dense>
             <v-col
                 v-for="picture in this.pictures"
                 :key="picture.name"
@@ -32,12 +32,15 @@
               
                 </v-img>
             </v-col>
-            <v-col
-                cols="3"
+    
+
+            <v-col 
+              class="d-flex justify-center mb-10"
+              
             >
-              <v-button>
-                aaaa
-              </v-button>   
+              <v-btn height="28px" >
+                加载更多
+              </v-btn>   
             </v-col>
             </v-row>
         </v-list>
