@@ -10,7 +10,9 @@
     
 ![](document/picture/feature.png)
 
-# 语法是什么？
+# 如何使用？
+
+## 语法
 
 语法非常简单，我耍几个例子你就懂了!
 
@@ -29,6 +31,11 @@
 ```
 
 ![](document/picture/example2.png)
+
+## 图片解析与反解析
+
+图片的相关信息会保存在 URL 中
+
 
 # 其它
 

@@ -8,7 +8,7 @@
               <v-list-item-title v-text="node.text"></v-list-item-title>
             </v-list-item-content>
             <v-list-item-avatar>
-              <IconPicker :ref="'icon-picker-' + node.id" :node="node" @refrech="refreshData" @search="searchPicture(node)">
+              <IconPicker :ref="'icon-picker-' + node.id" :node="node" @refrech="refreshData">
                 <template v-slot:menuActivator="{ on, attrs }">
                   <v-img
                     v-bind="attrs"
@@ -102,11 +102,6 @@ export default {
       //使用服务器传回的图片
       refPicker.setPickedPicture(node.avatar, node.text);
     },
-    async searchPicture(node) {
-      let refPicker = this.$refs["icon-picker-" + node.id][0];
-      refPicker.addIcon();
-    },
-
     getPng(res) {
       this.graphData = res.data.graphData;
       this.textareaValue = res.data.rawData;

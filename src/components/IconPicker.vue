@@ -79,9 +79,9 @@ export default {
   },
   watch: {
       searchPictureName: function(x) {
-          this.node.searchPictureName=this.searchPictureName;
+          this.node.searchPictureName=x;
           this.destoryIcon();
-          this.$emit("search");
+          this.addIcon();
       },
   },
   data() {
@@ -94,18 +94,18 @@ export default {
       totalPage:1,
       loadMoreBtnText: "再来点",
       mouseenterPositionY:0,
+      captchaInputLastTime:null,
     };
   },
   methods: {
     mouseenterMethod(event) {
-      this.mouseenterPositionY=event.clientY-30;
-
+      this.mouseenterPositionY=event.clientY-30
 
     },
     async addIcon() {
       var delay = 500;
       this.captchaInputLastTime = new Date().valueOf();
-      await new Promise((resolve) => setTimeout(resolve, delay));
+      await this.sleep(delay);
       var nowTime = new Date().valueOf();
       var gap = nowTime - this.captchaInputLastTime;
       if (gap < delay || this.curPage > this.totalPage) {
@@ -117,19 +117,26 @@ export default {
           this.searchPictureName,
         method: "GET",
       }).then((res) => {
+        if (("result" in res.data && res.data.result=="error")) {
+          console.log("123")
+          return;
+        };
+        console.log("hello")
         this.totalPage=res.data.pages.pageCount;
         res.data.pages.elements.forEach((element) => {
           this.pictures.push({avatar: element.url, pictureName: element.iconName});
         });
         this.curPage += 1;
-        
         });
-      
-      
+    },
+    sleep(ms = 1000) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
     },
 
     destoryIcon() {
         this.pictures = [];
+        this.curPage = 1;
+        this.totalPage = 1;
     },
 
     iconClick(picture) {
