@@ -89,6 +89,7 @@ export default {
         method: "GET"
       }).then(res =>{
         this.getPng(res);
+        this.textareaValue = res.data.rawData;
       });
     },
     sleep(ms = 1000) {
@@ -104,7 +105,6 @@ export default {
     },
     getPng(res) {
       this.graphData = res.data.graphData;
-      this.textareaValue = res.data.rawData;
       this.graphData.nodeList.forEach((node) => {
         this.$set(this.menuInfo, node.id, false);
       });
