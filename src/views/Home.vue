@@ -29,8 +29,19 @@
           label="输入表达式"
           v-model="textareaValue"
           height="300px"
-          style="margin: 10px"
+          style="margin: 10px 10px 0px 10px;"
         ></v-textarea>
+        <v-textarea
+          outlined
+          name="input-url"
+          label="url"
+          v-model="textareaUrl"
+          height="10px"
+          style="margin: 0px 10px 10px 10px"
+        ></v-textarea>
+        <v-btn @click="parseBtn">
+          解析
+        </v-btn>
       </v-col>
     </v-row>
     <img
@@ -62,6 +73,7 @@ export default {
       captchaInputLastTime: null,
       zIndex: 3500,
       highLightColor: "#fc1944",
+      textareaUrl: "",
     };
   },
   mounted() {},
@@ -71,6 +83,14 @@ export default {
     },
   },
   methods: {
+    parseBtn() {
+      this.axios({
+        url: this.textareaUrl,
+        method: "GET"
+      }).then(res =>{
+        this.getPng(res);
+      });
+    },
     sleep(ms = 1000) {
       return new Promise((resolve) => setTimeout(resolve, ms));
     },
@@ -85,6 +105,27 @@ export default {
     async searchPicture(node) {
       let refPicker = this.$refs["icon-picker-" + node.id][0];
       refPicker.addIcon();
+    },
+
+    getPng(res) {
+      this.graphData = res.data.graphData;
+      this.graphData = res.data.graphData;
+      this.graphData.nodeList.forEach((node) => {
+        this.$set(this.menuInfo, node.id, false);
+      });
+      this.graphData.nodeList.forEach((node) => {
+        this.$set(this.pickeredIconInfo, node.id, "");
+      });
+      this.axios({
+        url: "/graph/getPng",
+        method: "POST",
+        data: this.graphData,
+        responseType: "blob",
+      }).then((res) => {
+        const blob = new Blob([res.data], { type: "img/png" });
+        const url = window.URL.createObjectURL(blob);
+        this.graphUrl = url;
+      });
     },
     async refreshData() {
       var delay = 2000; //延迟2000 毫秒执行
@@ -107,29 +148,14 @@ export default {
         ) {
           return;
         }
-        this.graphData = res.data.graphData;
-        this.graphData = res.data.graphData;
-        this.graphData.nodeList.forEach((node) => {
-          this.$set(this.menuInfo, node.id, false);
-        });
-        this.graphData.nodeList.forEach((node) => {
-          this.$set(this.pickeredIconInfo, node.id, "");
-        });
-        this.axios({
-          url: "/graph/getPng",
-          method: "POST",
-          data: this.graphData,
-          responseType: "blob",
-        }).then((res) => {
-          const blob = new Blob([res.data], { type: "img/png" });
-          const url = window.URL.createObjectURL(blob);
-          this.graphUrl = url;
-        });
+        this.textareaUrl = this.GLOBAL.BASE_URL +"/graph/parseBase64?data=" + res.data.graphData.Base64;
+        this.getPng(res);
       });
     },
   },
   components: { IconPicker },
 };
+
 </script>
 
 <style scoped>

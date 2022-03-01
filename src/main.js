@@ -10,6 +10,7 @@ var baseURL="http://120.27.201.81:8888";
 if (process.env.NODE_ENV == "LOCAL") {
   baseURL = process.env.VUE_APP_SERVER_URL; 
 }
+Vue.prototype.GLOBAL = {"BASE_URL": baseURL};
 Vue.config.productionTip = false
 // axios.defaults.baseURL="http://120.27.201.81:8888"
 axios.defaults.baseURL=baseURL;
