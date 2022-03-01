@@ -85,7 +85,7 @@ export default {
   methods: {
     parseBtn() {
       this.axios({
-        url: this.textareaUrl,
+        url: this.textareaUrl + "&type=parse",
         method: "GET"
       }).then(res =>{
         this.getPng(res);
@@ -109,7 +109,7 @@ export default {
 
     getPng(res) {
       this.graphData = res.data.graphData;
-      this.graphData = res.data.graphData;
+      this.textareaValue = res.data.rawData;
       this.graphData.nodeList.forEach((node) => {
         this.$set(this.menuInfo, node.id, false);
       });
