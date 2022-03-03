@@ -78,7 +78,7 @@ export default {
   },
   mounted() {
     if ("textareaUrl" in this.$route.query) {
-      this.textareaUrl = this.$route.query.textareaUrl;
+      this.textareaUrl =  this.GLOBAL.BASE_URL +"/graph/parseBase64?data=" + this.$route.query.textareaUrl;
       this.parseBtn();
     }
   },
