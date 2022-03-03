@@ -76,7 +76,12 @@ export default {
       textareaUrl: "",
     };
   },
-  mounted() {},
+  mounted() {
+    if ("textareaUrl" in this.$route.query) {
+      this.textareaUrl = this.$route.query.textareaUrl;
+      this.parseBtn();
+    }
+  },
   watch: {
     textareaValue: async function (val) {
       this.refreshData();
