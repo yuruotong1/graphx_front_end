@@ -11,11 +11,13 @@
     </template>
     <v-card>
         <v-text-field
+            style="margin: 0px 8px 0 8px"
+            hide-details
             v-model="searchPictureName"
             label="Search"
             clearable
         ></v-text-field>
-        <v-list class="overflow-y-auto" height="180px">
+        <v-list color="#fafcff" class="overflow-y-auto" height="180px">
             <v-row dense>
             <v-col
                 v-for="picture in this.pictures"
@@ -25,13 +27,12 @@
                 <v-menu
                   open-on-hover
                   absolute
-                  :position-x="590"
+                  :position-x="1120"
                   :position-y="mouseenterPositionY"
-         
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-img 
-                      height="25px"
+                      width="25px"
                       contain
                       v-on="on"
                       v-bind="attrs"
@@ -45,7 +46,7 @@
                   </template>
                   <v-card>
                     <v-img
-                    height="100px"
+                    width="100px"
                     contain
                     :src="picture.avatar"
                   >
@@ -54,7 +55,7 @@
                 </v-menu>
             </v-col>
             <v-col 
-              class="d-flex justify-center mb-10"
+              class="d-flex justify-center mt-3"
             >
               <v-btn height="28px" @click="loadMore">
                 {{loadMoreBtnText}}

@@ -1,47 +1,63 @@
 <template>
   <div>
     <v-row>
-      <v-col cols="3">
-        <v-list>
-          <v-list-item v-for="node in graphData.nodeList" :key="node.text">
-            <v-list-item-content>
-              <v-list-item-title v-text="node.text"></v-list-item-title>
-            </v-list-item-content>
-            <v-list-item-avatar>
-              <IconPicker :ref="'icon-picker-' + node.id" :node="node" @refrech="refreshData">
-                <template v-slot:menuActivator="{ on, attrs }">
-                  <v-img
-                    v-bind="attrs"
-                    v-on="on"
-                    :src="node.avatar"
-                    @click="imgClick(node)"
-                  />
-                </template>
-              </IconPicker>
-            </v-list-item-avatar>
-          </v-list-item>
-        </v-list>
-      </v-col>
-      <v-col cols="7">
+      <v-col cols="9" >
         <v-textarea
           outlined
           name="input-7-4"
-          label="输入表达式"
+          label="请输入表达式"
           v-model="textareaValue"
           height="300px"
-          style="margin: 10px 10px 0px 10px;"
+          style="margin: 5px 5px;"
         ></v-textarea>
-        <v-textarea
+        <div class="d-flex">
+          <v-textarea
           outlined
           name="input-url"
           label="url"
           v-model="textareaUrl"
           height="10px"
-          style="margin: 0px 10px 10px 10px"
+          style="margin:0px 5px"
         ></v-textarea>
-        <v-btn @click="parseBtn">
+        <v-btn 
+        v-clipboard:copy="textareaUrl"
+        color="primary" 
+        style="margin:0px 5px"  
+        height="56px">
+          复制
+        </v-btn>
+        <v-btn @click="parseBtn" style="margin:0px 5px"  height="56px">
           解析
         </v-btn>
+        </div>
+      </v-col>
+      <v-col cols="3">
+          <v-card height="80px" v-for="node in graphData.nodeList"  :key="node.text" class="d-flex  justify-space-between mb-3">
+            <IconPicker :ref="'icon-picker-' + node.id" :node="node"
+             @refrech="refreshData" 
+             style="margin-left:30px">
+                <template v-slot:menuActivator="{ on, attrs }">
+                  <v-img
+                    width="0px"
+                    v-bind="attrs"
+                    contain
+                    v-on="on"
+                    :src="node.avatar"
+                    @click="imgClick(node)"
+                  />
+                </template>
+            </IconPicker>
+            <p class="font-weight-bold" style="font-size:50px;padding:0 20px;color:#764157">
+              {{node.id}}
+            </p> 
+            <v-text-field
+            style="margin-top:20px;"
+            label="别名"
+            :value="node.text"
+            single-line
+            ></v-text-field>
+            
+          </v-card>                  
       </v-col>
     </v-row>
     <img
