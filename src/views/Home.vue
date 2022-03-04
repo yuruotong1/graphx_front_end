@@ -32,7 +32,13 @@
         </div>
       </v-col>
       <v-col cols="3">
-          <v-card height="80px" v-for="node in graphData.nodeList"  :key="node.text" class="d-flex  justify-space-between mb-3">
+          <v-card height="80px" 
+          v-for="node in graphData.nodeList"  
+          :key="node.text" 
+          class="d-flex  
+          justify-space-between 
+          mr-2 mt-2 mb-2"
+          >
             <IconPicker :ref="'icon-picker-' + node.id" :node="node"
              @refrech="refreshData" 
              style="margin-left:30px">
@@ -46,7 +52,7 @@
                     @click="imgClick(node)"
                   />
                 </template>
-            </IconPicker>
+            </IconPicker >
             <p class="font-weight-bold" style="font-size:50px;padding:0 20px;color:#764157">
               {{node.id}}
             </p> 
@@ -90,6 +96,7 @@ export default {
       zIndex: 3500,
       highLightColor: "#fc1944",
       textareaUrl: "",
+      nodeText: ""
     };
   },
   mounted() {
@@ -100,6 +107,9 @@ export default {
   },
   watch: {
     textareaValue: async function (val) {
+      this.refreshData();
+    },
+    nodeText: async function (val) {
       this.refreshData();
     },
   },
@@ -126,9 +136,11 @@ export default {
     },
     getPng(res) {
       this.graphData = res.data.graphData;
+      // 向 menuInfo 中注入 node id 和是否打开
       this.graphData.nodeList.forEach((node) => {
         this.$set(this.menuInfo, node.id, false);
       });
+      // 向 pickeredIconInfo 中注入 node id 和已挑选图片
       this.graphData.nodeList.forEach((node) => {
         this.$set(this.pickeredIconInfo, node.id, "");
       });
@@ -157,6 +169,7 @@ export default {
         method: "POST",
         data: { rawData: this.textareaValue, jsonData: this.graphData },
       }).then((res) => {
+        // 若数据没有更新，则不进行后续操作
         if (
           res.status != 200 ||
           res.data.success == false ||
