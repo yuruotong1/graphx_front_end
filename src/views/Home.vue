@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div >
+    <v-overlay :value="overlay"></v-overlay>
     <v-row>
       <v-col cols="9" >
         <v-textarea
@@ -22,7 +23,7 @@
         <v-btn 
         v-clipboard:copy="textareaUrl"
         color="primary" 
-        style="margin:0px 5px"  
+        style="margin:0px 5px;"  
         height="56px">
           复制
         </v-btn>
@@ -41,9 +42,12 @@
           >
             <IconPicker :ref="'icon-picker-' + node.id" :node="node"
              @refrech="refreshData" 
-             style="margin-left:30px">
+             style="margin-left:30px"
+             @menuOverlay="changeOverlay">
+                
                 <template v-slot:menuActivator="{ on, attrs }">
                   <v-img
+                    class="ml-4"
                     width="0px"
                     v-bind="attrs"
                     contain
@@ -96,7 +100,8 @@ export default {
       zIndex: 3500,
       highLightColor: "#fc1944",
       textareaUrl: "",
-      nodeText: ""
+      nodeText: "",
+      overlay: false,
     };
   },
   mounted() {
@@ -114,6 +119,9 @@ export default {
     },
   },
   methods: {
+    changeOverlay(data) {
+      this.overlay=data;
+    },
     parseBtn() {
       this.axios({
         url: this.textareaUrl + "&type=parse",
