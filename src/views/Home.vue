@@ -2,7 +2,7 @@
   <div >
     <v-overlay :value="overlay"></v-overlay>
     <v-row>
-      <v-col cols="9" >
+      <v-col cols="9" fluid>
         <v-textarea
           outlined
           name="input-7-4"
@@ -31,50 +31,60 @@
           解析
         </v-btn>
         </div>
+        <v-img
+          max-width="1200px"
+         :src="graphUrl"
+        />
       </v-col>
       <v-col cols="3">
-          <v-card height="80px" 
-          v-for="node in graphData.nodeList"  
-          :key="node.text" 
-          class="d-flex  
-          justify-space-between 
-          mr-2 mt-2 mb-2"
+        <v-virtual-scroll
+        :items="graphData.nodeList"
+        height="630"
+        item-height="105"
+       >
+        <template v-slot:default="{ item }">
+          <v-card 
+            :key="item.id"
+            class="d-flex
+            flex-nowrap
+            justify-space-between
+            mr-4 ml-1 mt-2
+            align-center
+            "
           >
-            <IconPicker :ref="'icon-picker-' + node.id" :node="node"
-             @refrech="refreshData" 
-             style="margin-left:30px"
-             @menuOverlay="changeOverlay">
-                
-                <template v-slot:menuActivator="{ on, attrs }">
-                  <v-img
-                    class="ml-4"
-                    width="0px"
-                    v-bind="attrs"
-                    contain
-                    v-on="on"
-                    :src="node.avatar"
-                    @click="imgClick(node)"
-                  />
-                </template>
+            <IconPicker :ref="'icon-picker-' + item.id" :node="item"
+            @refrech="refreshData" 
+            @menuOverlay="changeOverlay"
+            >
+              <template v-slot:menuActivator="{ on, attrs }">
+                <v-img
+                  height="60px"
+                  v-bind="attrs"
+                  contain
+                  v-on="on"
+                  :src="item.avatar"
+                  @click="imgClick(item)"
+                />
+              </template>
             </IconPicker >
-            <p class="font-weight-bold" style="font-size:50px;padding:0 20px;color:#764157">
-              {{node.id}}
-            </p> 
-            <v-text-field
-            style="margin-top:20px;"
-            label="别名"
-            :value="node.text"
-            single-line
-            ></v-text-field>
-            
-          </v-card>                  
+            <v-card flat class="d-flex flex-column">
+              <p class="font-weight-bold mb-0" 
+              style="width:180px;overflow: hidden;white-space:nowrap;text-overflow:ellipsis;font-size:30px;color:#764157">
+              {{item.id}}
+              </p> 
+              <v-text-field
+              dense
+              class="mr-6"
+              label="别名"
+              :value="item.text"
+              single-line
+              ></v-text-field>
+            </v-card>
+          </v-card>
+        </template>
+        </v-virtual-scroll>              
       </v-col>
     </v-row>
-    <img
-      :src="graphUrl"
-      width="300px"
-      style="margin-left: 400px; margin-top: 0px"
-    />
   </div>
 </template>
 
@@ -91,7 +101,6 @@ export default {
         edgeList: [],
       },
       curPicture: "",
-      curNode: null,
       graphUrl: "",
       menuInfo: {},
       options: { FontAwesome: false, ElementUI: false },
@@ -135,10 +144,9 @@ export default {
       return new Promise((resolve) => setTimeout(resolve, ms));
     },
     imgClick(node) {
-      this.curNode = node;
-      let refPicker = this.$refs["icon-picker-" + node.id][0];
+      let refPicker = this.$refs["icon-picker-" + node.id];
+      console.log(this.$refs["icon-picker-" + node.id]);
       refPicker.searchPictureName = node.searchPictureName;
-      // this.searchPicture(node); 
       //使用服务器传回的图片
       refPicker.setPickedPicture(node.avatar, node.text);
     },
@@ -164,7 +172,7 @@ export default {
       });
     },
     async refreshData() {
-      var delay = 2000; //延迟2000 毫秒执行
+      var delay = 500; //延迟 500 毫秒执行
       this.captchaInputLastTime = new Date().valueOf();
       await this.sleep(delay);
       var nowTime = new Date().valueOf();
