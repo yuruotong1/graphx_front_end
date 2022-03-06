@@ -63,7 +63,7 @@
             >
               <template v-slot:menuActivator="{ on, attrs }">
                 <v-img
-                  height="60px"
+                  height="50px"
                   v-bind="attrs"
                   contain
                   v-on="on"

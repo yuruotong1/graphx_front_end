@@ -28,7 +28,7 @@
                     <v-menu
                       open-on-hover
                       absolute
-                      :position-x="1120"
+                      :position-x="1190"
                       :position-y="mouseenterPositionY"
                     >
                       <template v-slot:activator="{ on, attrs }">

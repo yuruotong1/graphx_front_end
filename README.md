@@ -2,11 +2,7 @@
 
 试用地址：http://120.27.201.81/#/
 
-这是一款自动化画图工具，多说无益请看效果。
-
-![](document/picture/show.gif)
-
-总之有以下特色：
+这是一款自动化画图工具，具有以下特色：
     
 ![](document/picture/feature.png)
 
@@ -32,16 +28,39 @@
 
 ![](document/picture/example2.png)
 
-## 修改图片
+## 修改别名
 
-生成图片后，若发现图片出现**错误**：
+输入下面语法：
 
-![](http://120.27.201.81:8888/graph/parseBase64?data=eyJzdWNjZXNzIjp0cnVlLCJncmFwaERhdGEiOnsiZWRnZUxpc3QiOlt7InNvdXJjZU5vZGUiOnsiYXZhdGFyIjoiaHR0cHM6Ly9pY29uc2FwaS5jb20vNWVlMjYwZWVlNGIwYjc4OGE5MzJhMTgyLnN2ZyIsImlkIjoi5Zu-54mHIiwic2VhcmNoUGljdHVyZU5hbWUiOiLlm77niYciLCJ0ZXh0Ijoi5Zu-54mHIn0sInRhcmdldE5vZGUiOnsiYXZhdGFyIjoiaHR0cHM6Ly9pY29uc2FwaS5jb20vNWVlMjYyYmJlNGIwYjc4OGE5MzJhOTEwLnN2ZyIsImlkIjoi6ZSZ6K-vIiwic2VhcmNoUGljdHVyZU5hbWUiOiLplJnor68iLCJ0ZXh0Ijoi6ZSZ6K-vIn0sInRleHQiOiIiLCJ0eXBlIjoiTElORV9MSU5FX0FSUk9XIn1dLCJub2RlTGlzdCI6W3siJHJlZiI6IiQuZ3JhcGhEYXRhLmVkZ2VMaXN0WzBdLnNvdXJjZU5vZGUifSx7IiRyZWYiOiIkLmdyYXBoRGF0YS5lZGdlTGlzdFswXS50YXJnZXROb2RlIn1dfSwicmF3RGF0YSI6IuWbvueJhyAtLT4g6ZSZ6K-vIn0=.png)
+```
+a--c
+```
 
-有两种修改方法：
+![](http://120.27.201.81:8888/graph/parseBase64?data=eyJzdWNjZXNzIjp0cnVlLCJncmFwaERhdGEiOnsiZWRnZUxpc3QiOlt7InNvdXJjZU5vZGUiOnsiYXZhdGFyIjoiaHR0cHM6Ly9pY29uc2FwaS5jb20vNWVlMjYwNmZlNGIwYjc4OGE5MzI5ZWJjLnN2ZyIsImlkIjoiYSIsInNlYXJjaFBpY3R1cmVOYW1lIjoiYSIsInRleHQiOiJhIn0sInRhcmdldE5vZGUiOnsiYXZhdGFyIjoiaHR0cHM6Ly9pY29uc2FwaS5jb20vNWVlMjYwNmZlNGIwYjc4OGE5MzI5ZWUxLnN2ZyIsImlkIjoiYyIsInNlYXJjaFBpY3R1cmVOYW1lIjoiYyIsInRleHQiOiJjZmYifSwidGV4dCI6IiIsInR5cGUiOiJMSU5FX0xJTkUifV0sIm5vZGVMaXN0IjpbeyIkcmVmIjoiJC5ncmFwaERhdGEuZWRnZUxpc3RbMF0uc291cmNlTm9kZSJ9LHsiJHJlZiI6IiQuZ3JhcGhEYXRhLmVkZ2VMaXN0WzBdLnRhcmdldE5vZGUifV19LCJyYXdEYXRhIjoiYS0tYyJ9.png)
+
+如果你觉得 'a' 和 'b' 不够具体，可以为图片起个别名：
+
+![](https://person-manage.oss-cn-beijing.aliyuncs.com/img/20220306225151.png)
+
+## 修改图标
+
+输入下面语法：
+
+```
+中国--北京
+```
+![](http://120.27.201.81:8888/graph/parseBase64?data=eyJzdWNjZXNzIjp0cnVlLCJncmFwaERhdGEiOnsiZWRnZUxpc3QiOlt7InNvdXJjZU5vZGUiOnsiYXZhdGFyIjoiaHR0cHM6Ly9pY29uc2FwaS5jb20vNWVlMjY0NmZlNGIwYjc4OGE5MzJmMWE5LnN2ZyIsImlkIjoi5Lit5Zu9Iiwic2VhcmNoUGljdHVyZU5hbWUiOiLkuK3lm70iLCJ0ZXh0Ijoi5Lit5Zu9In0sInRhcmdldE5vZGUiOnsiYXZhdGFyIjoiaHR0cHM6Ly9pY29uc2FwaS5jb20vNWVlMjY0MjllNGIwYjc4OGE5MzJlNGMwLnN2ZyIsImlkIjoi5YyX5LqsIiwic2VhcmNoUGljdHVyZU5hbWUiOiLljJfkuqwiLCJ0ZXh0Ijoi5YyX5LqsIn0sInRleHQiOiIiLCJ0eXBlIjoiTElORV9MSU5FIn1dLCJub2RlTGlzdCI6W3siJHJlZiI6IiQuZ3JhcGhEYXRhLmVkZ2VMaXN0WzBdLnNvdXJjZU5vZGUifSx7IiRyZWYiOiIkLmdyYXBoRGF0YS5lZGdlTGlzdFswXS50YXJnZXROb2RlIn1dfSwicmF3RGF0YSI6IuS4reWbvS0t5YyX5LqsIn0=.png)
+
+如果你对上述图片中的“图标”不满意，可在 graphx 页面进行修改：
+
+
+
+## 已经生成的图，如何修改？
+
+生成图片后，若发现图片出现**错误**，有两种修改方法：
 
 1. 将图片 url 复制到浏览器上，然后删除图片 url 结尾的".png"，进行访问
-1. 将**图片 url 复制到 graphx 页面的 url 输入框，点击「解析」按钮，即可对图片进行修改！**
+1. 将图片 url 复制到 graphx 页面的 url 输入框，点击「解析」按钮，即可对图片进行修改！
 
 比如，graphx 生成了如下图片：
 
@@ -57,19 +76,9 @@ http://120.27.201.81:8888/graph/parseBase64?data=eyJzdWNjZXNzIjp0cnVlLCJncmFwaER
 http://120.27.201.81:8888/graph/parseBase64?data=eyJzdWNjZXNzIjp0cnVlLCJncmFwaERhdGEiOnsiZWRnZUxpc3QiOlt7InNvdXJjZU5vZGUiOnsiYXZhdGFyIjoiaHR0cHM6Ly9pY29uc2FwaS5jb20vNWVlMjYwNmZlNGIwYjc4OGE5MzI5ZWUxLnN2ZyIsImlkIjoiYyIsInNlYXJjaFBpY3R1cmVOYW1lIjoiYyIsInRleHQiOiJjIn0sInRhcmdldE5vZGUiOnsiYXZhdGFyIjoiaHR0cHM6Ly9pY29uc2FwaS5jb20vNWVlMjYwNmZlNGIwYjc4OGE5MzI5ZWRiLnN2ZyIsImlkIjoiZCIsInNlYXJjaFBpY3R1cmVOYW1lIjoiZCIsInRleHQiOiJkIn0sInRleHQiOiIiLCJ0eXBlIjoiTElORV9MSU5FIn1dLCJub2RlTGlzdCI6W3siJHJlZiI6IiQuZ3JhcGhEYXRhLmVkZ2VMaXN0WzBdLnNvdXJjZU5vZGUifSx7IiRyZWYiOiIkLmdyYXBoRGF0YS5lZGdlTGlzdFswXS50YXJnZXROb2RlIn1dfSwicmF3RGF0YSI6ImMtLWQifQ==
 ```
 
-或者进行下面操作：
+哇，太神奇了！难道 graphx 把图片信息存进了数据库？不，不是的！
 
-![](https://person-manage.oss-cn-beijing.aliyuncs.com/img/20220302075912.png)
-
-graphx 会通过 url，将图片信息还原：
-
-![](https://person-manage.oss-cn-beijing.aliyuncs.com/img/20220302080001.png)
-
-哇，太神奇了！难道 graphx 把图片信息存进了数据库？
-
-![](http://120.27.201.81:8888/graph/parseBase64?data=eyJzdWNjZXNzIjp0cnVlLCJncmFwaERhdGEiOnsiZWRnZUxpc3QiOlt7InNvdXJjZU5vZGUiOnsiYXZhdGFyIjoiaHR0cHM6Ly9pY29uc2FwaS5jb20vNWVlMjYwZWVlNGIwYjc4OGE5MzJhMTgyLnN2ZyIsImlkIjoi5Zu-54mH5L-h5oGvIiwic2VhcmNoUGljdHVyZU5hbWUiOiLlm77niYciLCJ0ZXh0Ijoi5Zu-54mH5L-h5oGvIn0sInRhcmdldE5vZGUiOnsiYXZhdGFyIjoiaHR0cHM6Ly9pY29uc2FwaS5jb20vNWVlMjYyY2RlNGIwYjc4OGE5MzJhYmEwLnN2ZyIsImlkIjoi5pWw5o2u5bqTIiwic2VhcmNoUGljdHVyZU5hbWUiOiLmlbDmja7lupMiLCJ0ZXh0Ijoi5pWw5o2u5bqTIn0sInRleHQiOiIiLCJ0eXBlIjoiTElORV9MSU5FX0FSUk9XIn1dLCJub2RlTGlzdCI6W3siJHJlZiI6IiQuZ3JhcGhEYXRhLmVkZ2VMaXN0WzBdLnNvdXJjZU5vZGUifSx7IiRyZWYiOiIkLmdyYXBoRGF0YS5lZGdlTGlzdFswXS50YXJnZXROb2RlIn1dfSwicmF3RGF0YSI6IuWbvueJh-S_oeaBryAtPy0-IOaVsOaNruW6kyJ9.png)
-
-graphx 不存储图片，是图片的解析工，图片的相关信息会保存在 URL 中：
+graphx 不存储图片，是图片的「解析工」，图片的相关信息会保存在 URL 中，工作原理如下：
 
 ![](document/picture/parsePng.png)
 
