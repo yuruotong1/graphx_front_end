@@ -27,9 +27,9 @@
                 >
                     <v-menu
                       open-on-hover
-                      absolute
-                      :position-x="1190"
-                      :position-y="mouseenterPositionY"
+                      left
+                      offset-x = true
+                      offset-y = true
                     >
                       <template v-slot:activator="{ on, attrs }">
                         <v-img 

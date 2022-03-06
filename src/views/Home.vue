@@ -58,14 +58,18 @@
             "
           >
             <IconPicker :ref="'icon-picker-' + item.id" :node="item"
-            @refrech="refreshData" 
-            @menuOverlay="changeOverlay"
+                @refrech="refreshData" 
+                @menuOverlay="changeOverlay"
+           
             >
               <template v-slot:menuActivator="{ on, attrs }">
                 <v-img
-                  height="50px"
-                  v-bind="attrs"
+                  style="flex-basis: 50px;
+                         flex-grow: 0;
+                         flex-shrink: 0;"
+                  class="ml-7"
                   contain
+                  v-bind="attrs"
                   v-on="on"
                   :src="item.avatar"
                   @click="imgClick(item)"
