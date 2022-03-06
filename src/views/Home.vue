@@ -18,7 +18,8 @@
           label="url"
           v-model="textareaUrl"
           height="10px"
-          style="margin:0px 5px"
+          class="ml-2"
+       
         ></v-textarea>
         <v-btn 
         v-clipboard:copy="textareaUrl"
@@ -31,10 +32,14 @@
           解析
         </v-btn>
         </div>
-        <v-img
-          max-width="1200px"
+        <v-card class="flex-grow-0 flex-shrink-0 align-self-start ml-2" >
+          <v-img
+          contain
+          max-height=200px
+          style="flex:1"
          :src="graphUrl"
         />
+       </v-card>    
       </v-col>
       <v-col cols="3">
         <v-virtual-scroll
@@ -72,13 +77,16 @@
               style="width:180px;overflow: hidden;white-space:nowrap;text-overflow:ellipsis;font-size:30px;color:#764157">
               {{item.id}}
               </p> 
-              <v-text-field
-              dense
-              class="mr-6"
-              label="别名"
-              :value="item.text"
-              single-line
-              ></v-text-field>
+              <div class="d-flex mr-2">
+                <v-text-field
+                dense
+                class="mr-3"
+                label="别名"
+                v-model="item.text"
+                single-line
+                @input="nodeTextInput"
+                ></v-text-field>
+              </div> 
             </v-card>
           </v-card>
         </template>
@@ -109,7 +117,6 @@ export default {
       zIndex: 3500,
       highLightColor: "#fc1944",
       textareaUrl: "",
-      nodeText: "",
       overlay: false,
     };
   },
@@ -120,14 +127,16 @@ export default {
     }
   },
   watch: {
-    textareaValue: async function (val) {
-      this.refreshData();
-    },
-    nodeText: async function (val) {
+    textareaValue: function (val) {
       this.refreshData();
     },
   },
   methods: {
+    nodeTextInput(input) {
+      console.log(input);
+      this.refreshData();
+
+    },
     changeOverlay(data) {
       this.overlay=data;
     },
