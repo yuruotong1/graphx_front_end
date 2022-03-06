@@ -53,6 +53,14 @@ a--c
 
 如果你对上述图片中的“图标”不满意，可在 graphx 页面进行修改：
 
+点击图标
+
+![](https://person-manage.oss-cn-beijing.aliyuncs.com/img/20220307000115.png)
+
+选择相应的图标即可更换：
+
+![](https://person-manage.oss-cn-beijing.aliyuncs.com/img/20220307000220.png)
+
 
 
 ## 已经生成的图，如何修改？
