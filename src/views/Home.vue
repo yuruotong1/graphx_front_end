@@ -36,15 +36,14 @@
           <v-img
           contain
           max-height=200px
-          style="flex:1"
          :src="graphUrl"
         />
        </v-card>    
       </v-col>
       <v-col cols="3">
-        <v-virtual-scroll
+        <v-virtual-scroll 
         :items="graphData.nodeList"
-        height="630"
+        height="650"
         item-height="105"
        >
         <template v-slot:default="{ item }">
@@ -78,8 +77,8 @@
             </IconPicker >
             <v-card flat class="d-flex flex-column">
               <p class="font-weight-bold mb-0" 
-              style="width:180px;overflow: hidden;white-space:nowrap;text-overflow:ellipsis;font-size:30px;color:#764157">
-              {{item.id}}
+                 style="width:180px;overflow: hidden;white-space:nowrap;text-overflow:ellipsis;font-size:30px;color:#764157">
+                {{item.id}}
               </p> 
               <div class="d-flex mr-2">
                 <v-text-field
@@ -137,8 +136,9 @@ export default {
   },
   methods: {
     nodeTextInput(input) {
-      console.log(input);
+      console.log(this.graphData);
       this.refreshData();
+
 
     },
     changeOverlay(data) {
@@ -158,7 +158,6 @@ export default {
     },
     imgClick(node) {
       let refPicker = this.$refs["icon-picker-" + node.id];
-      console.log(this.$refs["icon-picker-" + node.id]);
       refPicker.searchPictureName = node.searchPictureName;
       //使用服务器传回的图片
       refPicker.setPickedPicture(node.avatar, node.text);
@@ -201,8 +200,7 @@ export default {
         // 若数据没有更新，则不进行后续操作
         if (
           res.status != 200 ||
-          res.data.success == false ||
-          this.graphData == res.data.graphData
+          res.data.success == false
         ) {
           return;
         }

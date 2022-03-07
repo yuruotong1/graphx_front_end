@@ -91,6 +91,9 @@ graphx 不存储图片，是图片的「解析工」，图片的相关信息会�
 ![](document/picture/parsePng.png)
 
 
+
 # 其它
 
 后端地址：https://github.com/yuruotong1/graphx_backend
+
+
