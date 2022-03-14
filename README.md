@@ -1,5 +1,7 @@
 # 这是什么工具？
 
+Bilibili视频：https://www.bilibili.com/video/BV1gq4y1i7bB/
+
 试用地址：http://120.27.201.81/#/
 
 这是一款自动化画图工具，具有以下特色：
@@ -89,6 +91,8 @@ http://120.27.201.81:8888/graph/parseBase64?data=eyJzdWNjZXNzIjp0cnVlLCJncmFwaER
 graphx 不存储图片，是图片的「解析工」，图片的相关信息会保存在 URL 中，工作原理如下：
 
 ![](document/picture/parsePng.png)
+
+若我提供的 graphx 服务器挂掉，你也可以手动部署服务器，该服务器也可解析图片！
 
 
 

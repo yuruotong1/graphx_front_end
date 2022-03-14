@@ -10,26 +10,24 @@
           v-model="textareaValue"
           height="300px"
           style="margin: 5px 5px;"
+          @input="mainTextareaChange"
         ></v-textarea>
         <div class="d-flex">
           <v-textarea
           outlined
           name="input-url"
           label="url"
-          v-model="textareaUrl"
+          v-model="getPngUrl"
           height="10px"
           class="ml-2"
        
         ></v-textarea>
         <v-btn 
-        v-clipboard:copy="textareaUrl"
+        v-clipboard:copy="getPngUrl"
         color="primary" 
         style="margin:0px 5px;"  
         height="56px">
           复制
-        </v-btn>
-        <v-btn @click="parseBtn" style="margin:0px 5px"  height="56px">
-          解析
         </v-btn>
         </div>
         <v-card class="flex-grow-0 flex-shrink-0 align-self-start ml-2" >
@@ -59,7 +57,6 @@
             <IconPicker :ref="'icon-picker-' + item.id" :node="item"
                 @refrech="refreshData" 
                 @menuOverlay="changeOverlay"
-           
             >
               <template v-slot:menuActivator="{ on, attrs }">
                 <v-img
@@ -109,7 +106,6 @@ export default {
       textareaValue: "",
       graphData: {
         nodeList: [],
-        edgeList: [],
       },
       curPicture: "",
       graphUrl: "",
@@ -119,37 +115,36 @@ export default {
       captchaInputLastTime: null,
       zIndex: 3500,
       highLightColor: "#fc1944",
-      textareaUrl: "",
+      base64Data: "",
+      getPngUrl: "",
       overlay: false,
     };
   },
   mounted() {
-    if ("textareaUrl" in this.$route.query) {
-      this.textareaUrl =  this.GLOBAL.BASE_URL +"/graph/parseBase64?data=" + this.$route.query.textareaUrl;
+    if ("base64Data" in this.$route.query) {
+      this.base64Data =  this.$route.query.base64Data;
+      this.getPngUrl =  this.GLOBAL.BASE_URL +"/graph/png?data=" + this.base64Data;
+      this.$router.push({ query: {} });
       this.parseBtn();
     }
   },
-  watch: {
-    textareaValue: function (val) {
-      this.refreshData();
-    },
-  },
   methods: {
+    mainTextareaChange(){
+      console.log("hello")
+      this.refreshData(); 
+    },
     nodeTextInput(input) {
-      console.log(this.graphData);
       this.refreshData();
-
-
     },
     changeOverlay(data) {
       this.overlay=data;
     },
     parseBtn() {
       this.axios({
-        url: this.textareaUrl + "&type=parse",
+        url: this.GLOBAL.BASE_URL + "/graph/parseBase64?data=" + this.base64Data,
         method: "GET"
       }).then(res =>{
-        this.getPng(res);
+        this.saveData(res);
         this.textareaValue = res.data.rawData;
       });
     },
@@ -162,27 +157,6 @@ export default {
       //使用服务器传回的图片
       refPicker.setPickedPicture(node.avatar, node.text);
     },
-    getPng(res) {
-      this.graphData = res.data.graphData;
-      // 向 menuInfo 中注入 node id 和是否打开
-      this.graphData.nodeList.forEach((node) => {
-        this.$set(this.menuInfo, node.id, false);
-      });
-      // 向 pickeredIconInfo 中注入 node id 和已挑选图片
-      this.graphData.nodeList.forEach((node) => {
-        this.$set(this.pickeredIconInfo, node.id, "");
-      });
-      this.axios({
-        url: "/graph/getPng",
-        method: "POST",
-        data: this.graphData,
-        responseType: "blob",
-      }).then((res) => {
-        const blob = new Blob([res.data], { type: "img/png" });
-        const url = window.URL.createObjectURL(blob);
-        this.graphUrl = url;
-      });
-    },
     async refreshData() {
       var delay = 500; //延迟 500 毫秒执行
       this.captchaInputLastTime = new Date().valueOf();
@@ -193,10 +167,15 @@ export default {
         return;
       }
       this.axios({
-        url: "/graph/parse",
+        url: "/graph/parseData",
         method: "POST",
         data: { rawData: this.textareaValue, jsonData: this.graphData },
       }).then((res) => {
+        this.saveData(res);
+        this.getPngUrl = this.GLOBAL.BASE_URL +"/graph/png?data=" + res.data.Base64;
+      });
+    },
+    saveData(res) {
         // 若数据没有更新，则不进行后续操作
         if (
           res.status != 200 ||
@@ -204,10 +183,17 @@ export default {
         ) {
           return;
         }
-        this.textareaUrl = this.GLOBAL.BASE_URL +"/graph/parseBase64?data=" + res.data.graphData.Base64;
-        this.getPng(res);
-      });
-    },
+        this.graphUrl = "data:image/png;base64, " +res.data.img;
+        this.graphData.nodeList = res.data.nodeList;
+        // 向 menuInfo 中注入 node id 和是否打开
+        this.graphData.nodeList.forEach((node) => {
+          this.$set(this.menuInfo, node.id, false);
+        });
+        // 向 pickeredIconInfo 中注入 node id 和已挑选图片
+        this.graphData.nodeList.forEach((node) => {
+          this.$set(this.pickeredIconInfo, node.id, "");
+        });
+    }
   },
   components: { IconPicker },
 };
