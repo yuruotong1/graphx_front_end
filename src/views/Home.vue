@@ -130,7 +130,6 @@ export default {
   },
   methods: {
     mainTextareaChange(){
-      console.log("hello")
       this.refreshData(); 
     },
     nodeTextInput(input) {
@@ -145,7 +144,7 @@ export default {
         method: "GET"
       }).then(res =>{
         this.saveData(res);
-        this.textareaValue = res.data.rawData;
+        this.textareaValue = res.data.graphData.rawData;
       });
     },
     sleep(ms = 1000) {
@@ -172,7 +171,7 @@ export default {
         data: { rawData: this.textareaValue, jsonData: this.graphData },
       }).then((res) => {
         this.saveData(res);
-        this.getPngUrl = this.GLOBAL.BASE_URL +"/graph/png?data=" + res.data.Base64;
+        this.getPngUrl = this.GLOBAL.BASE_URL +"/graph/png?data=" + res.data.graphData.Base64;
       });
     },
     saveData(res) {
@@ -183,8 +182,8 @@ export default {
         ) {
           return;
         }
-        this.graphUrl = "data:image/png;base64, " +res.data.img;
-        this.graphData.nodeList = res.data.nodeList;
+        this.graphUrl = "data:image/png;base64, " +res.data.graphData.img;
+        this.graphData.nodeList = res.data.graphData.nodeList;
         // 向 menuInfo 中注入 node id 和是否打开
         this.graphData.nodeList.forEach((node) => {
           this.$set(this.menuInfo, node.id, false);
