@@ -30,6 +30,22 @@ Bilibili视频：https://www.bilibili.com/video/BV1gq4y1i7bB/
 
 ![](document/picture/example2.png)
 
+### 子结构
+
+可以用表示子结构：
+
+```
+c--d
+d--f
+g {
+  d-->k
+}
+```
+
+![](document/picture/structExample.png)
+
+
+
 ## 修改别名
 
 输入下面语法：
