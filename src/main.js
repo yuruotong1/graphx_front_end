@@ -15,7 +15,6 @@ Vue.prototype.GLOBAL = {"BASE_URL": baseURL};
 Vue.config.productionTip = false
 // axios.defaults.baseURL="http://120.27.201.81:8888"
 axios.defaults.baseURL=baseURL;
-
 Vue.use(VueClipboards);
 Vue.use(VueAxios,axios);
 new Vue({

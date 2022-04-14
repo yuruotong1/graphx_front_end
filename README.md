@@ -1,5 +1,7 @@
 # 这是什么工具？
 
+wiki：https://github.com/yuruotong1/graphx_front_end/wiki
+
 Bilibili视频：https://www.bilibili.com/video/BV1gq4y1i7bB/
 
 试用地址：http://120.27.201.81/#/

@@ -9,7 +9,11 @@ const routes = [
     path: '/',
     name: 'Home',
     props: true,
-    component: Home
+    component: Home,
+    meta:{        
+      keepAlive:true   // 需要缓存的页面
+    }
+
   }
 ]
 
