@@ -3,7 +3,7 @@
     <v-overlay :value="overlay"></v-overlay>
     <v-row>
       <v-col cols="9" fluid>
-        <p style="margin: 5px 5px">开发者微信：RuotongYu001</p>
+        <p style="margin: 15px 5px">开发者微信：RuotongYu001</p>
         <v-textarea area
           outlined
           name="input-7-4"
