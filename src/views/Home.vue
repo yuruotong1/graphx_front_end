@@ -32,10 +32,8 @@
           </v-btn>
         </div>
         
-        <v-card class="flex-grow-0 flex-shrink-0 align-self-start ml-2" >
-    
-          <v-img contain max-height="200px" :src="graphUrl" />
-    
+        <v-card class="flex-grow-0 flex-shrink-0 align-self-start ml-2" flat >
+            <img style="max-width:900px" :src="graphUrl">
         </v-card>
       </v-col>
       <v-col cols="3">
