@@ -7,8 +7,8 @@
         <v-textarea area
           outlined
           name="input-7-4"
-          label="请输入表达式"
           v-model="textareaValue"
+          label="请输入表达式"
           height="300px"
           style="margin: 5px 5px"
           @input="mainTextareaChange"
@@ -38,7 +38,7 @@
       </v-col>
       <v-col cols="3">
         <v-virtual-scroll
-          :items="graphData.nodeList"
+          :items="iconPickerList"
           height="650"
           item-height="105"
         >
@@ -58,7 +58,7 @@
               <IconPicker
                 :ref="'icon-picker-' + item.id"
                 :node="item"
-                @refrech="refreshData"
+                @refrech="iconPickerRefresh"
                 @menuOverlay="changeOverlay"
               >
                 <template v-slot:menuActivator="{ on, attrs }">
@@ -115,11 +115,10 @@ export default {
       graphData: {
         nodeList: [],
       },
+      iconPickerList: [],
       curPicture: "",
       graphUrl: "",
-      menuInfo: {},
       options: { FontAwesome: false, ElementUI: false },
-      pickeredIconInfo: {},
       captchaInputLastTime: null,
       zIndex: 3500,
       highLightColor: "#fc1944",
@@ -138,12 +137,23 @@ export default {
     }
   },
   methods: {
-    mainTextareaChange() {
-      this.refreshData();
+    iconPickerRefresh() {
+      this.graphData.nodeList = this.iconPickerList;
+      this.refreshData({ rawData: this.textareaValue, jsonData: this.graphData });
+    },
+    mainTextareaChange(input) {
+      const res = this.refreshData({ rawData: input, jsonData: this.graphData })
+      if(res != null){
+        res.then(x=> {
+         this.iconPickerList=this.graphData.nodeList
+      }); 
+      }
+     
     },
     nodeTextInput(input, item) {
       item.text = input;
-      this.refreshData();
+      this.graphData.nodeList = this.iconPickerList
+      this.refreshData({ rawData: this.textareaValue, jsonData: this.graphData });
     },
     changeOverlay(data) {
       this.overlay = data;
@@ -155,6 +165,7 @@ export default {
         method: "GET",
       }).then((res) => {
         this.saveData(res);
+        this.iconPickerList = res.data.graphData.nodeList
         this.textareaValue = res.data.graphData.rawData;
       });
     },
@@ -167,19 +178,19 @@ export default {
       //使用服务器传回的图片
       refPicker.setPickedPicture(node.avatar, node.text);
     },
-    async refreshData() {
+    async refreshData(data) {
       var delay = 500; //延迟 500 毫秒执行
       this.captchaInputLastTime = new Date().valueOf();
       await this.sleep(delay);
       var nowTime = new Date().valueOf();
       var gap = nowTime - this.captchaInputLastTime;
       if (gap < delay) {
-        return;
+        return null;
       }
-      this.axios({
+      return this.axios({
         url: "/graph/parseData",
         method: "POST",
-        data: { rawData: this.textareaValue, jsonData: this.graphData },
+        data: data,
       }).then((res) => {
         this.saveData(res);
         this.getPngUrl =
@@ -193,14 +204,6 @@ export default {
       }
       this.graphUrl = "data:image/png;base64, " + res.data.graphData.img;
       this.graphData.nodeList = res.data.graphData.nodeList;
-      // 向 menuInfo 中注入 node id 和是否打开
-      this.graphData.nodeList.forEach((node) => {
-        this.$set(this.menuInfo, node.id, false);
-      });
-      // 向 pickeredIconInfo 中注入 node id 和已挑选图片
-      this.graphData.nodeList.forEach((node) => {
-        this.$set(this.pickeredIconInfo, node.id, "");
-      });
     },
   },
   components: { IconPicker},
