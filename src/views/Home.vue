@@ -179,7 +179,7 @@ export default {
       refPicker.setPickedPicture(node.avatar, node.text);
     },
     async refreshData(data) {
-      var delay = 500; //延迟 500 毫秒执行
+      var delay = 1500; //延迟 1.5 秒执行
       this.captchaInputLastTime = new Date().valueOf();
       await this.sleep(delay);
       var nowTime = new Date().valueOf();
